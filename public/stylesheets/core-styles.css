@@ -1,0 +1,100 @@
+.ui-width-640 {
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.alpha60 {
+
+    opacity:0.6;
+    filter:alpha(opacity=60); /* For IE8 and earlier */
+}
+.alpha80 {
+
+    opacity:0.8;
+    filter:alpha(opacity=80); /* For IE8 and earlier */
+}
+.alpha85 {
+
+    opacity:0.85;
+    filter:alpha(opacity=85); /* For IE8 and earlier */
+}
+
+.alpha90 {
+
+    opacity:0.9;
+    filter:alpha(opacity=90); /* For IE8 and earlier */
+}
+
+.bg-box-white {
+
+    background: #FFF;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    height: auto;
+    padding: 2px 10px;
+    text-align:center;
+}
+
+.bg-box-black {
+
+    background: red;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    height: auto;
+    padding: 1px 5px;
+    text-align:center;
+    color:white;
+}
+
+.ui-radio:nth-child(1) .ui-icon-radio-on.ui-icon{
+    background-color:green;
+}
+.ui-radio:nth-child(2) .ui-icon-radio-on.ui-icon{
+    background-color:grey;
+}
+.ui-radio:nth-child(3) .ui-icon-radio-on.ui-icon{
+    background-color:red;
+}
+
+ .custom-li {
+     padding: 0 !important;
+     border-width:0 !important;
+ }
+
+.custom-bottom-li {
+    border-top-width: 0 !important;
+}
+
+/*Accordion Bubbles hack from: http://www.intelligrape.com/blog/2012/10/18/setting-count-bubble-in-jquery-mobile-accordian-head/*/
+.ui-collapsible-heading .ui-btn-text{ display:block;}
+.ui-collapsible-heading .ui-li-count { position: absolute; font-size: 11px; font-weight: bold; padding: .2em .5em; top: 50%; margin-top: -.9em; right: 10px;  border-radius: 1em 1em 1em 1em; background: linear-gradient(#FFFFFF, #F1F1F1) repeat scroll 0 0 #EEEEEE;  border: 1px solid #CCCCCC; color: #222222;font-weight: bold;text-shadow: 0 1px 0 #FFFFFF; }
+
+.ui-li:last-child, .ui-li.ui-field-contain:last-child {
+    border-bottom: none !important;
+}
+
+fieldset legend, #addEventForm legend {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.dates li {
+    display: inline;
+    list-style-type: none;
+    padding-right: 2px;
+}
+.evtPhone li, .evtSite li  {
+    list-style-type: none;
+    display: inline;
+    padding-right: 2px;
+}
+
+.bold {
+
+    font-weight: bold;
+}
+

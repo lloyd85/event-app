@@ -1,0 +1,24 @@
+extends layout
+
+block content
+
+    div(data-role='content')
+        .bg-box-white.alpha9(data-inset='true')
+            h3= title
+            .txtwrapper(data-role='collapsible-set')
+
+        each user, i in userlist
+
+            div(data-role='collapsible', data-collapsed='false', data-theme='a')
+                h3= user.fname + ' ' + user.lname
+                    span.ui-li-count 0
+                ul(data-role='listview')
+                    li
+                        a(href='#')
+                            h5 Phone
+                            p= user.phone
+                            h5 Email
+                            p.ui-li-desc= user.email
+
+    a(href='/eventlist', data-role='button', data-theme='b', data-shadow='false', data-icon='arrow-r', data-iconpos='right') Events
+    a(data-role='button', data-mini='true', data-rel='back', data-theme='a', data-icon='back', data-shadow='false', data-iconpos='right') Back

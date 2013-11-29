@@ -1,0 +1,270 @@
+extends layout
+
+block content
+
+    div(data-role='content')
+
+        h2=title
+
+            form#addEventForm(method='post', action='/addevent')
+
+                label(for='name') Event Name
+                input#name(type='text', placeholder='Enter Event Name', name='name')
+
+                label(for='info') Event Description
+                textarea#info(placeholder='Enter what Event is about', name='info')
+
+                div(data-role='fieldcontain')
+
+                    fieldset(data-role='controlgroup', data-type='horizontal')
+
+                        legend Start Date
+                        label(for='startDay') Day
+                        select#startDay(name='startDay')
+                            option Day
+                            option 1
+                            option 2
+                            option 3
+                            option 4
+                            option 5
+                            option 6
+                            option 7
+                            option 8
+                            option 9
+                            option 10
+                            option 11
+                            option 12
+                            option 13
+                            option 14
+                            option 15
+                            option 16
+                            option 17
+                            option 18
+                            option 19
+                            option 20
+                            option 21
+                            option 22
+                            option 23
+                            option 24
+                            option 25
+                            option 26
+                            option 27
+                            option 28
+                            option 29
+                            option 30
+                            option 31
+
+                        label(for='startMonth') Month
+                        select#startMonth(name='startMonth')
+                            option Month
+                            option Jan
+                            option Feb
+                            option Mar
+                            option Apr
+                            option May
+                            option Jun
+                            option Jul
+                            option Aug
+                            option Sep
+                            option Oct
+                            option Nov
+                            option Dec
+
+                        label(for='startYear') Year
+                        select#startYear(name='startYear')
+                            option Year
+                            option 2013
+                            option 2014
+                            option 2015
+                            option 2016
+                            option 2017
+
+                div(data-role='fieldcontain')
+
+                    fieldset(data-role='controlgroup', data-type='horizontal')
+
+                        legend Start Time (h)
+                        label(for='startHours') Hours
+                        select#startHours(name='startHours')
+                            option  0
+                            option  1
+                            option  2
+                            option  3
+                            option  4
+                            option  5
+                            option  6
+                            option  7
+                            option  8
+                            option  9
+                            option 10
+                            option 11
+                            option 12
+                            option 13
+                            option 14
+                            option 15
+                            option 16
+                            option 17
+                            option 18
+                            option 19
+                            option 20
+                            option 21
+                            option 22
+                            option 23
+
+                        label(for='startMinutes') Minutes
+                        select#startMinutes(name='startMinutes')
+                            option 00
+                            option 05
+                            option 10
+                            option 15
+                            option 20
+                            option 25
+                            option 30
+                            option 35
+                            option 40
+                            option 45
+                            option 50
+                            option 55
+
+                div(data-role='fieldcontain')
+
+                    fieldset(data-role='controlgroup', data-type='horizontal')
+
+                        legend End Date
+                        label(for='endDay') Day
+                        select#endDay(name='endDay')
+                            option Day
+                            option 1
+                            option 2
+                            option 3
+                            option 4
+                            option 5
+                            option 6
+                            option 7
+                            option 8
+                            option 9
+                            option 10
+                            option 11
+                            option 12
+                            option 13
+                            option 14
+                            option 15
+                            option 16
+                            option 17
+                            option 18
+                            option 19
+                            option 20
+                            option 21
+                            option 22
+                            option 23
+                            option 24
+                            option 25
+                            option 26
+                            option 27
+                            option 28
+                            option 29
+                            option 30
+                            option 31
+
+                        label(for='endMonth') Month
+                        select#endMonth(name='endMonth')
+                            option Month
+                            option Jan
+                            option Feb
+                            option Mar
+                            option Apr
+                            option May
+                            option Jun
+                            option Jul
+                            option Aug
+                            option Sep
+                            option Oct
+                            option Nov
+                            option Dec
+
+                        label(for='endYear') Year
+                        select#endYear(name='endYear')
+                            option Year
+                            option 2013
+                            option 2014
+                            option 2015
+                            option 2016
+                            option 2017
+
+                div(data-role='fieldcontain')
+
+                    fieldset(data-role='controlgroup', data-type='horizontal')
+
+                        legend End Time (h)
+                        label(for='endHours') Hours
+
+                        select#endHours(name='endHours')
+                            option  0
+                            option  1
+                            option  2
+                            option  3
+                            option  4
+                            option  5
+                            option  6
+                            option  7
+                            option  8
+                            option  9
+                            option 10
+                            option 11
+                            option 12
+                            option 13
+                            option 14
+                            option 15
+                            option 16
+                            option 17
+                            option 18
+                            option 19
+                            option 20
+                            option 21
+                            option 22
+                            option 23
+
+                        label(for='endMinutes') Minutes
+                        select#endMinutes(name='endMinutes')
+                            option 00
+                            option 05
+                            option 10
+                            option 15
+                            option 20
+                            option 25
+                            option 30
+                            option 35
+                            option 40
+                            option 45
+                            option 50
+                            option 55
+
+                h3 Event Address
+
+                label(for='street') Street
+                input#street(type='text', placeholder='Street and Number', name='street')
+
+                label(for='city') City
+                input#city(type='text', placeholder='City', name='city')
+
+                label(for='postcode') Postcode
+                input#postcode(type='text', placeholder='Postcode', name='postcode')
+
+                label(for='country') Country
+                input#country(type='text', placeholder='Country', name='country')
+
+                h3 Event Contact Details
+
+                label(for='site') Website
+                input#site(type='text', placeholder='Official Website', name='site')
+
+                label(for='phone') Phone Number
+                input#phone(type='text', placeholder='Phone Number', name='phone')
+
+                div(data-role='controlgroup', data-type='horizontal', style='margin: 0 auto;')
+                    button(type='submit', data-theme='b', data-shadow='false') Submit
+                    button(type='reset', data-theme='b', data-shadow='false') Reset
+                a(href='/eventlist', data-role='button', data-icon='arrow-r', data-iconpos='right') Events
+                a(data-role='button', data-mini='true', data-rel='back', data-theme='a', data-icon='back', data-shadow='false', data-iconpos='right') Back
+
+                p= status

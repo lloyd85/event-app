@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    div(data-role='content', style='background: #000000 url(\'images/img-bg4.jpg\'); -webkit-background-size: 100% auto;')
+        form#formAddUser(name="loginuser",method="post",action="/loginuser", data-ajax="false")
+            .alpha85
+                input#inputUserName(type="text", placeholder="username", name="username")
+                input#inputUserPassword(type="password", placeholder="password", name="password")
+                button#btnSubmit(type="submit", data-theme="b") Login
+        br
+        .bg-box-white.alpha9
+            p
+                strong Not a member yet?
+            a(href='/newuser', data-role='button', data-icon='arrow-r', data-iconpos='right') Sign Up

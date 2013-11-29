@@ -1,0 +1,428 @@
+
+/*
+ * GET home page.
+ */
+
+exports.index = function(req, res){
+  res.render('index', { title: 'Express' });
+};
+
+exports.helloworld = function(req, res){
+    res.render('helloworld', { title: 'Hello World' });
+};
+
+exports.welcome = function(req, res){
+    res.render('welcome', { title: 'Welcome to Event Maker' });
+};
+
+exports.login = function(req, res){
+    delete req.session.user_id;
+    res.render('login', { title: 'Log in' });
+};
+
+exports.loginuser = function(db, bcrypt) {
+    return function(req, res) {
+
+        // Get our form values. These rely on the "name" attributes
+        var userName = req.body.username;
+        var userPassword = req.body.password;
+
+        // Set our collection
+        var collection = db.get('usercollection');
+
+        collection.findOne({username:userName}).on('success', function(doc){
+            var tRes = res;
+            if(doc){
+
+                bcrypt.compare(userPassword, doc.password, function(err, res) {
+                    // res == true
+                    if (err) console.warn(e.message);
+
+                    if (res){
+                        req.session.user_id = doc._id;
+                        //tRes.redirect('/helloworld');
+                        tRes.redirect('/welcome');
+                    }
+                    else {
+                        tRes.redirect('/login');
+                    };
+                });
+            }
+            else {
+                tRes.redirect('/login');
+            };
+        });
+        collection.findOne({username:userName, email:userPassword}).on('error', function(err){
+            console.warn(err.message);
+        });
+        /* collection.find({username:userName, email:userPassword},{},function(e, docs){
+            if (e) console.warn(e.message);
+
+            console.log('DOCS : ' + JSON.stringify(docs));
+            //console.log('DOCS ID : ' + docs[0]._id);
+
+            for(var i = 0, len = docs.length; i < len; i++) {
+                console.log('in loop: ' + docs[i]._id);
+                //req.session.user_id = docs._id;
+                //res.redirect('/helloworld');
+            };
+
+        });  */
+    };
+};
+
+exports.logout = function (req, res) {
+    delete req.session.user_id;
+    res.redirect('/login');
+};
+
+exports.userlist = function(db) {
+    return function(req, res) {
+        var collection = db.get('usercollection');
+        collection.find({},{},function(e,docs){
+            res.render('userlist', {
+                "userlist" : docs
+            });
+        });
+    };
+};
+
+exports.eventlist = function(db) {
+    return function(req, res) {
+        var collection = db.get('eventcollection');
+        collection.find({},{},function(e,docs){
+            res.render('eventlist', {
+                "eventlist" : docs
+            });
+        });
+    };
+};
+
+exports.newuser = function(req, res){
+    res.render('newuser', { title: 'Add New User', status : ''});
+};
+
+exports.newevent = function(req, res){
+    res.render('newevent', { title: 'Add New Event' });
+};
+
+exports.addevent = function(db, bcrypt) {
+    return function(req, res) {
+        var eventName = req.body.evtName;
+        var eventInfo = req.body.evtInfo;
+        var eventStartDay = req.body.evtStartDay;
+        var eventStartMonth = req.body.evtStartMonth;
+        var eventStartHours = req.body.evtStartHours;
+        var eventStartMinutes = req.body.evtStartMinutes;
+        var eventStartYear = req.body.evtStartYear;
+        var eventEndDay = req.body.evtEndDay;
+        var eventEndMonth = req.body.evtEndMonth;
+        var eventEndYear = req.body.evtEndYear;
+        var eventEndHours = req.body.evtEndHours;
+        var eventEndMinutes = req.body.evtEndMinutes;
+        var eventStreet = req.body.evtStreet;
+        var eventCity = req.body.evtCity;
+        var eventPostCode = req.body.evtPostCode;
+        var eventCountry = req.body.evtCountry;
+        var eventSite = req.body.evtSite;
+        var eventPhone = req.body.evtPhone;
+
+        var eventObject = {
+            name : eventName,
+            info : eventInfo,
+
+            startDate: {
+                day : eventStartDay,
+                month : eventStartMonth,
+                year : eventStartYear
+            },
+            startTime: {
+                hours : eventStartHours,
+                minutes : eventStartMinutes
+            },
+            endDate: {
+                day : eventEndDay,
+                month : eventEndMonth,
+                year : eventEndYear
+            },
+            endTime: {
+                hours : eventEndHours,
+                minutes : eventEndMinutes
+            },
+            location: {
+                street : eventStreet,
+                city : eventCity,
+                postCode : eventPostCode,
+                country : eventCountry
+            },
+            contact : {
+                phone: eventPhone,
+                site : eventSite
+            }
+        };
+
+        var err_message = "null";
+
+        var collection = db.get('eventcollection');
+
+        function validateEventDetails(){
+            var valid = false;
+            var date = new Date();
+            var months = {
+                'January':1,
+                'February':2,
+                'March':3,
+                'April':4,
+                'May':5,
+                'June':6,
+                'July':7,
+                'August':8,
+                'September':9,
+                'October':10,
+                'November':11,
+                'December':12
+            };
+
+            var currentDay = date.getDate();
+            var currentMonth = (date.getMonth()+1);
+            var currentYear = date.getFullYear();
+            var currentHours = date.getHours();
+            var currentMinutes = (date.getMinutes < 10) ? '0' + date.getMinutes() : date.getMinutes();
+            /*console.log('eventEndYear  lth eventStartYear : ' + (eventEndYear < eventStartYear));
+            console.log('eventEndYear  == eventStartYear : ' + (eventEndYear == eventStartYear));
+            console.log('eventEndYear : ' + eventEndYear);
+            console.log('eventStartYear : ' + eventStartYear);
+
+            console.log('eventEndMonth  lth eventStartYear : ' + (months[eventEndMonth] < months[eventStartMonth]));
+            console.log('eventEndMonth  == eventStartYear : ' + (months[eventEndMonth] == months[eventStartMonth]));
+            console.log('eventEndMonth : ' + months[eventEndMonth]);
+            console.log('eventStartMonth : ' + months[eventStartMonth]);
+
+            console.log('eventEndDay  lth eventStartYear : ' + (eventEndDay < eventStartDay));
+            console.log('eventEndDay == eventStartYear : ' + (eventEndDay == eventStartDay));
+            console.log('eventEndDay : ' + eventEndDay);
+            console.log('eventStartDay : ' + eventStartDay);
+
+            console.log('currentHours lth : ' + (eventStartHours < currentDay) );
+            console.log('currentHours : ' + currentDay);
+            console.log('eventStartHours : ' + eventStartHours);
+            else if (eventEndYear < currentYear){
+             err_message = 'The end year has already passed';
+             }
+             else if (months[eventEndMonth] < currentMonth){
+             err_message = 'The end month has already passed';
+             }
+             else if (eventEndDay < currentDay){
+             err_message = 'The end date has already passed';
+             }
+             else if (eventEndDay == currentDay && months[eventEndMonth] == currentMonth && eventEndYear == currentYear){
+             console.log('test')
+             if(eventEndHours < currentHours){
+             err_message = 'Please make sure that the time for the end is not earlier than the current time (hours)';
+             }
+             else if(eventEndHours == currentHours && eventEndMinutes < currentMinutes){
+             err_message = 'Please make sure that the time for the end is not earlier than the current time (minutes)';
+             };
+             }  */
+            if(eventName.length < 1 || eventInfo.length < 1 || eventPostCode.length < 1){
+                err_message = 'Please enter valid event name and info';
+            }
+            else if (eventStartYear < currentYear){
+                err_message = 'The start year has already passed';
+            }
+            else if (months[eventStartMonth] < currentMonth){
+                err_message = 'The start month has already passed';
+            }
+            else if (eventStartDay < currentDay){
+                err_message = 'The start date has already passed';
+            }
+            else if (eventStartDay == currentDay && months[eventStartMonth] == currentMonth && eventStartYear == currentYear){
+                if(eventStartHours < currentHours){
+                    err_message = 'Please make sure that the time for the Start is not earlier than the current time (hours)';
+                }
+                else if(eventStartHours == currentHours && eventStartMinutes < currentMinutes){
+                    err_message = 'Please make sure that the time for the Start is not earlier than the current time (minutes)';
+                }
+                else {
+
+                    if(eventEndYear < eventStartYear){
+                        err_message = 'Please make sure that the end year is not earlier than the start year';
+                    }
+                    else if (months[eventEndMonth] < months[eventStartMonth]){
+                        err_message = 'Please make sure that the end month is not earlier than the start month';
+                    }
+                    else if (eventEndDay < eventStartDay){
+                        err_message = 'Please make sure that the end date is not earlier than the start date';
+                    }
+                    else if (eventEndDay == eventStartDay && months[eventEndMonth] == months[eventStartMonth] && eventEndYear == eventStartYear){
+                        if(eventEndHours < eventStartHours){
+                            err_message = 'Please make sure that the time for the end is not earlier than the start time (hours)';
+                        }
+                        else if(eventEndHours == eventStartHours && eventEndMinutes <= eventStartMinutes){
+                            err_message = 'Please make sure that the time for the end is not earlier than the start time (minutes)';
+                        }
+                        else {
+                            valid = true;
+                        }
+                    };
+                };
+            };
+
+            return valid;
+        };
+
+        if(validateEventDetails()){
+            //console.log('JSON string: ' + JSON.stringify(eventObject));
+            collection.insert(eventObject, function (err, doc) {
+                if (err) {
+                    // If it failed, return error
+                    res.send("There was a problem adding the information to the database.");
+                }
+                else {
+                    // If it worked, forward to success page
+                    res.redirect('/eventlist');
+                    // And set the header so the address bar doesn't still say /addevent
+                    res.location('/eventlist');
+                };
+            });
+        } else {
+            console.log('Something is wrong: ' + err_message);
+            //res.status = 500;
+            res.render('newevent', { title: 'Add New User', status : err_message});
+
+            //console.log('DATA: ' + JSON.stringify(eventObject));
+            // res.redirect('/newevent');
+            res.location('/newevent');
+        };
+    }
+};
+
+exports.adduser = function(db, bcrypt) {
+    return function(req, res) {
+
+        // Get our form values. These rely on the "name" attributes
+        var userName = req.body.username;
+        var userFirstName = req.body.fname;
+        var userLastName = req.body.lname;
+        var userEmail = req.body.email;
+        var userPhone = req.body.phone;
+        var userPassword = req.body.password;
+        var userConfirmPassword = validatePassword(req.body.conf_password);
+        // Set our collection
+        var collection = db.get('usercollection');
+        var userNameValid = validateUserName(userName);
+        var userEmailValid = validateEmail(userEmail);
+
+        function checkPropertyExistence(collection, key, value, callback) {
+
+//            var propertyValueExists = false;
+            var obj = new Object();
+            obj[key] = value;
+            collection.find(obj,{},function(e,docs){
+                if (e) console.warn(e.message);
+
+                for(var i = 0, len = docs.length; i < len; i++) {
+                    console.log('Username Value: ' + docs[i][key]);
+                    if(docs[i][key] == value) {
+                        console.log('Property Key ' + key + ' already exists');
+                        callback.apply(this);
+                        break;
+                    };
+                };
+            });
+            //return propertyValueExists;
+        };
+
+        function validatePassword(userConfirmPassword){
+            console.log('userPassword ' + userPassword);
+            console.log('userConfirmPassword ' + userConfirmPassword);
+
+            if( userPassword == userConfirmPassword){
+
+                console.log(userPassword.length);
+                if(userPassword.length < 9 && userPassword.length > 4){
+                    encryptPassword(userPassword);
+                }
+                else {
+                    console.error('Password too short/long make sure its btw 5 - 8 chars lng');
+                };
+            }
+            else {
+                console.error('Password dont match');
+            };
+        };
+
+        function validateEmail(email) {
+            var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        };
+
+        function validatePhone(phoneNumber){
+            var re = /[0-9]/;
+            return re.test(phoneNumber);
+        };
+
+        function validateUserName(username){
+            var tUserNameValid = false;
+            if(userName.length < 10 && userName.length > 4){
+                console.log('username has right length');
+                console.log('Colleciton: ' + collection);
+                tUserNameValid = true;
+                checkPropertyExistence(collection, 'username', username, function(){
+                    console.log('Property Key already exists');
+                    res.redirect('/newuser');
+                    res.location('/newuser');
+                    userNameValid = false;
+                });
+            } else {
+                console.error('Make sure your username is between 6 - 10 Characters');
+            };
+            return tUserNameValid;
+        };
+
+        function encryptPassword(userPassword){
+            var tHash;
+            bcrypt.genSalt(10, function(err, salt) {
+                bcrypt.hash(userPassword, salt, function(err, hash) {
+                    // Store hash in your password DB.
+                    if (err) console.warn(err.message);
+
+                    tHash = hash;
+                    saveDetails({
+                        "fname" : userFirstName,
+                        "lname" : userLastName,
+                        "email" : userEmail,
+                        "phone" : userPhone,
+                        "username" : userName,
+                        "password" : tHash
+                    });
+                });
+            });
+        };
+
+        // Submit to the DB
+        function saveDetails(detailsObject){
+
+            console.log('Saving Details Func');
+            console.log('userNameValid : ' + userNameValid);
+            console.log('userEmailValid : ' + userEmailValid);
+
+            if(userNameValid && userEmailValid) {
+
+                console.log('Saving Details Func - Success');
+                collection.insert(detailsObject, function (err, doc) {
+                    if (err) {
+                        // If it failed, return error
+                        res.send("There was a problem adding the information to the database.");
+                    }
+                    else {
+                        // If it worked, forward to success page
+                        res.redirect('/login');
+                        // And set the header so the address bar doesn't still say /adduser
+                        res.location('/login');
+                    };
+                });
+            };
+        };
+    };
+}

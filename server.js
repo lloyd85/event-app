@@ -11,7 +11,7 @@ var path = require('path');
 var bcrypt = require('bcrypt')
 
 var nodemailer = require('nodemailer')
-var emailTemplates = require('email-templates-windows')
+var emailTemplates = require('email-templates')
 var templatesDir = path.resolve(__dirname, 'templates');
 
 

@@ -4,6 +4,7 @@
 
 $(document).ready(function()
 {
+    var logoutBtn = $('.logoutLink');
     var evtEditBtn = $('.evtEditButton');
     var evtAddBtn = $('.evtAddButton');
     var evtDeleteBtn = $('.evtDeleteButton');
@@ -48,6 +49,17 @@ $(document).ready(function()
 
     $(this).bind("mobileinit", function(){
         $.mobile.metaViewportContent = "width=device-width";
+    });
+
+    logoutBtn.click(function(){
+
+        $.post('/logout', { _method : 'get' }, function(response) {
+            if(response.retStatus === 'Success') {
+                if (response.redirectTo ) {
+                    window.location = response.redirectTo;
+                };
+            };
+        });
     });
 
     evtSubscribeBtn.click(function(){

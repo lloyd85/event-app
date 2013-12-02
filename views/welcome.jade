@@ -3,7 +3,7 @@ extends layout
 block content
 
     div(data-role='content', style='background: #000000 url(\'images/img-bg4.jpg\'); -webkit-background-size: 100% auto;')
-
+        a.logoutLink(href='/logout') Logout
         .bg-box-white.alpha9(data-inset='true')
             h2= 'Welcome ' + user.fname
 

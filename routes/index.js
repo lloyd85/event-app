@@ -45,7 +45,11 @@ exports.loginuser = function(db, bcrypt) {
 
 exports.logout = function (req, res) {
     delete req.session.user_id;
-    res.redirect('/welcome');
+    retStatus = 'Success'
+    res.send({
+        retStatus : retStatus,
+        redirectTo: '/'
+    });
 };
 
 exports.welcome = function (db) {

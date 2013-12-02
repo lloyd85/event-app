@@ -1,23 +1,20 @@
 extends layout
 
 block content
-    h1.
-        Event List
-    //ul
-        each event, i in eventlist
-            li
-                a(href="/event/" + event._id)= event.name
 
-    div(data-role='content')
+    div(data-role='content', style='background: #000000 url(\'images/img-bg3.jpg\'); -webkit-background-size: 100% auto;')
+        a.logoutLink(href='/logout') Logout
+
         .bg-box-white.alpha9
-            h2=title
+            h1 Event List
+
             .txtwrapper
                 #evtWrapper(data-role='collapsible-set', data-inset='true')
                     each event, i in eventlist
 
                         div(data-role='collapsible', data-inset='true', data-theme='b')
                             h3.title= event.name
-                                span.ui-li-count 25
+                                span.ui-li-count #{event.attendees.length}
                             ul(data-role='listview')
                                 li(data-role='list-divider', data-theme='b')= event.startDay + ' ' + event.startMonth + ' ' + event.startYear
                                 li
@@ -51,6 +48,8 @@ block content
                                             li.ui-li-desc.startMinutes.bold=event.startMinutes
 
                                             li.ui-li-desc h
+
+                                        ul.dates
 
                                             li.ui-li-desc Till:
 
@@ -91,9 +90,12 @@ block content
 
                                         ul
                                             li.ui-li-desc
-                                            each attendee in event.attendees
+                                                if(event.attendees.length > 0)
+                                                    each attendee in event.attendees
 
-                                                li.ui-li-desc #{attendee.fname} #{attendee.lname}
+                                                        li.ui-li-desc #{attendee.fname} #{attendee.lname}
+                                                else
+                                                    li.ui-li-desc None
                                     br
 
                                     h5 Organiser Details

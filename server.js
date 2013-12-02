@@ -8,10 +8,10 @@ var routes = require('./routes');
 var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
-var bcrypt = require('bcrypt')
+var bcrypt = require('bcryptjs')
 
 var nodemailer = require('nodemailer')
-var emailTemplates = require('email-templates')
+var emailTemplates = require('email-templates-windows')
 var templatesDir = path.resolve(__dirname, 'templates');
 
 
@@ -50,11 +50,17 @@ app.post('/loginuser', routes.loginuser(db, bcrypt));
 app.get('/logout', routes.logout);
 
 app.get('/welcome', checkAuth, routes.welcome(db));
+app.get('/mydetails', checkAuth, routes.mydetails(db));
+app.put('/updatemydetails/:id', checkAuth, routes.updatemydetails(db));
+app.get('/deletemydetails/:id', checkAuth, routes.deletemydetails(db));
 
-app.get('/eventlist', checkAuth, routes.eventlist(db));
+app.get('/eventlist', routes.eventlist(db));
+app.get('/myevents', checkAuth, routes.myevents(db));
+app.get('/events', checkAuth, routes.events(db));
+app.get('/event/:id', routes.event(db));
 app.get('/newevent', checkAuth, routes.newevent);
 app.post('/addevent', routes.addevent(db));
-app.post('/deleteevent', checkAuth, routes.addevent(db));
+app.get('/deleteevent/:id', routes.deleteevent(db));
 app.put('/updateevent/:id', checkAuth, routes.updateevent(db));
 
 app.put('/subscribe/:id', routes.subscribe(db, emailTemplates, templatesDir, nodemailer));
@@ -62,7 +68,13 @@ app.put('/unsubscribe/:id', routes.unsubscribe(db, emailTemplates, templatesDir,
 
 app.post('/invite/:id', checkAuth, routes.invite(db, emailTemplates, templatesDir, nodemailer));
 
-app.post('/deleteattendee/:id/:attendee_id', checkAuth, routes.deleteattendee(db, emailTemplates, templatesDir, nodemailer));
+function checkAuth(req, res, next) {
+    if (!req.session.user_id) {
+        res.send('You are not authorized to view this page');
+    } else {
+        next();
+    };
+};
 
 function checkAuth(req, res, next) {
     if (!req.session.user_id) {

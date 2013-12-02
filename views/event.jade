@@ -1,0 +1,74 @@
+extends layout
+
+block content
+
+    div(data-role='content')
+
+        ul(data-role='listview', data-inset='true', data-theme='a')
+            li(data-role='list-divider', data-theme='a')
+                h1(style="font-size:1.75em")= event.name
+            li(data-role='list-divider', data-theme='b')= event.startDay + ' ' + event.startMonth + ' ' + event.startYear
+            li
+                h5 Name
+                .norm
+                    ul
+                        li.name.ui-li-desc(style='text-size: 2em !important;')= event.name
+                        h5 Information
+                .norm
+                    ul
+                        li.info.ui-li-desc(style='text-size: 2em !important;')= event.info
+                        h5 Event Duration
+                .norm
+                    ul.dates
+                        li.ui-li-desc From:
+                            li.ui-li-desc.startDay.bold=' ' + event.startDay
+                            li.ui-li-desc.startMonth.bold=' ' +  event.startMonth
+                            li.ui-li-desc.startYear.bold=' ' +  event.startYear + ' '
+                            li.ui-li-desc at
+                            li.ui-li-desc.startHours.bold=' ' +  event.startHours
+                            li.ui-li-desc :
+                            li.ui-li-desc.startMinutes.bold=event.startMinutes
+                            li.ui-li-desc h
+                    ul.dates
+                        li.ui-li-desc Till:
+                            li.ui-li-desc.endDay.bold= ' ' + event.endDay
+                            li.ui-li-desc.endMonth.bold= ' ' + event.endMonth
+                            li.ui-li-desc.endYear.bold= ' ' +  event.endYear + ' '
+                            li.ui-li-desc at
+                            li.ui-li-desc.endHours.bold=' ' +  event.endHours
+                            li.ui-li-desc :
+                            li.ui-li-desc.endMinutes.bold=event.endMinutes
+                            li.ui-li-desc h
+                h5 Address
+                .norm
+                    ul
+                        li.street.ui-li-desc= event.street
+                        li.city.ui-li-desc= event.city
+                        li.postcode.ui-li-desc= event.postcode
+                        li.country.ui-li-desc= event.country
+                        h5 Contact Details
+                .norm
+                    ul.evtSite
+                        li.ui-li-desc.bold Website:
+                            li.ui-li-desc.site=' ' + event.site
+                            ul.evtPhone
+                        li.ui-li-desc.bold Tel:
+                            li.ui-li-desc.phone=' ' + event.phone
+                        h5 Attendees
+                            ul
+                        li.ui-li-desc
+                            if(event.attendees.length > 0)
+                                each attendee in event.attendees
+                                    li.ui-li-desc #{attendee.fname} #{attendee.lname}
+                            else
+                                li.ui-li-desc None
+                br
+                    h5 Organiser Details
+                    ul
+                        li.ui-li-desc.
+                        li.orgName.ui-li-desc.strong='Name: ' + event.organiser.fname + ' ' + event.organiser.lname
+                        li.orgPhone.ui-li-desc.strong='Tel: ' + event.organiser.phone
+                        li.orgEmail.ui-li-desc.strong='Email: ' + event.organiser.email
+                div(data-role='controlgroup', data-type='horizontal')
+                    a(data-role='button', data-mini='false  ', href='/login', data-theme='a', data-icon='arrow-r', data-shadow='false', data-iconpos='right') Log In
+                    a(data-role='button', data-mini='false', href='/', data-theme='b', data-icon='star', data-shadow='false', data-iconpos='right') Sign Up

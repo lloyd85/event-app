@@ -3,13 +3,14 @@ extends layout
 block content
 
     div(data-role='content', style='background: #000000 url(\'images/img-bg4.jpg\'); -webkit-background-size: 100% auto;')
-        h2= 'Welcome ' + user.fname
 
-            br
-            br
-            .bg-box-white.alpha9(data-inset='true')
-                p
-                    strong Event Section
-                a(href='/eventlist', data-role='button', data-icon='arrow-r', data-theme='b', data-iconpos='right') See Events
-                a(href='/newevent', data-role='button', data-icon='arrow-r', data-theme='b', data-iconpos='right') Add Event
-                a(href='/userlist', data-role='button', data-icon='arrow-r', data-theme='a', data-iconpos='right') See Users
+        .bg-box-white.alpha9(data-inset='true')
+            h2= 'Welcome ' + user.fname
+
+            p
+                strong Event Section
+
+            a(href='/myevents', data-role='button', data-icon='arrow-r', data-theme='b', data-iconpos='right') My Events
+            a(href='/events', data-role='button', data-icon='arrow-r', data-theme='b', data-iconpos='right') Events
+            a(href='/newevent', data-role='button', data-icon='arrow-r', data-theme='b', data-iconpos='right') Add Event
+            a(href='/mydetails', data-role='button', data-icon='arrow-r', data-theme='a', data-iconpos='right') My Details

@@ -1,3 +1,8 @@
+body, div[data-role="page"], div[data-role="content"] {
+    height: 80%;
+
+}
+
 .ui-width-640 {
     max-width: 640px;
     margin-left: auto;
@@ -98,3 +103,14 @@ fieldset legend, #addEventForm legend {
     font-weight: bold;
 }
 
+.logoutLink {
+    float:right; position:relative; right:15px; top:10px; font-size:1.2em;
+}
+
+.font-color-lightgrey {
+    color:lightgray;
+}
+
+.hidden {
+   visibility:hidden;display:none;
+}

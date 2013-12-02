@@ -3,10 +3,10 @@ extends layout
 block content
 
     div(data-role='content')
-
+        a.logoutLink(href='/logout') Logout
         h2=title
 
-            form#addEventForm(method='post', action='/addevent')
+            form#addEventForm(method='', action='#')
 
                 label(for='name') Event Name
                 input#name(type='text', placeholder='Enter Event Name', name='name')
@@ -262,9 +262,9 @@ block content
                 input#phone(type='text', placeholder='Phone Number', name='phone')
 
                 div(data-role='controlgroup', data-type='horizontal', style='margin: 0 auto;')
-                    button(type='submit', data-theme='b', data-shadow='false') Submit
+                    button.evtAddButton(type='button', data-theme='b', data-shadow='false') Submit
                     button(type='reset', data-theme='b', data-shadow='false') Reset
-                a(href='/eventlist', data-role='button', data-icon='arrow-r', data-iconpos='right') Events
+                a(href='/welcome', data-role='button') Home
                 a(data-role='button', data-mini='true', data-rel='back', data-theme='a', data-icon='back', data-shadow='false', data-iconpos='right') Back
 
-                p= status
+                p#status

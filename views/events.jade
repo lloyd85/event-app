@@ -1,0 +1,150 @@
+extends layout
+
+block content
+
+    div(data-role='content')
+        .bg-box-white.alpha9
+            h1 Events
+            .txtwrapper
+                #evtWrapper(data-role='collapsible-set', data-inset='true')
+                    each event, i in eventlist
+
+                        div(data-role='collapsible', data-inset='true', data-theme='b')
+                            h3.title= event.name
+                                span.ui-li-count #{event.attendees.length}
+                            ul(data-role='listview')
+                                li(data-role='list-divider', data-theme='b')= event.startDay + ' ' + event.startMonth + ' ' + event.startYear
+                                li
+                                    h5 Name
+                                    .norm
+                                        ul
+                                            li.name.ui-li-desc(style='text-size: 2em !important;')= event.name
+
+                                    h5 Information
+                                    .norm
+                                        ul
+                                            li.info.ui-li-desc(style='text-size: 2em !important;')= event.info
+
+                                    h5 Event Duration
+                                    .norm
+                                        ul.dates
+                                            li.ui-li-desc From:
+
+                                            li.ui-li-desc.startDay.bold=' ' + event.startDay
+
+                                            li.ui-li-desc.startMonth.bold=' ' +  event.startMonth
+
+                                            li.ui-li-desc.startYear.bold=' ' +  event.startYear + ' '
+
+                                            li.ui-li-desc at
+
+                                            li.ui-li-desc.startHours.bold=' ' +  event.startHours
+
+                                            li.ui-li-desc :
+
+                                            li.ui-li-desc.startMinutes.bold=event.startMinutes
+
+                                            li.ui-li-desc h
+
+                                        ul.dates
+
+                                            li.ui-li-desc Till:
+
+                                            li.ui-li-desc.endDay.bold= ' ' + event.endDay
+                                            li.ui-li-desc.endMonth.bold= ' ' + event.endMonth
+                                            li.ui-li-desc.endYear.bold= ' ' +  event.endYear + ' '
+
+                                            li.ui-li-desc at
+
+                                            li.ui-li-desc.endHours.bold=' ' +  event.endHours
+
+                                            li.ui-li-desc :
+
+                                            li.ui-li-desc.endMinutes.bold=event.endMinutes
+
+                                            li.ui-li-desc h
+                                    h5 Address
+                                    .norm
+                                        ul
+                                            li.street.ui-li-desc= event.street
+                                            li.city.ui-li-desc= event.city
+                                            li.postcode.ui-li-desc= event.postcode
+                                            li.country.ui-li-desc= event.country
+
+                                    h5 Contact Details
+                                    .norm
+                                        ul.evtSite
+                                            li.ui-li-desc.bold Website:
+
+                                            li.ui-li-desc.site=' ' + event.site
+
+                                        ul.evtPhone
+                                            li.ui-li-desc.bold Tel:
+
+                                            li.ui-li-desc.phone=' ' + event.phone
+
+                                    h5 Attendees
+
+                                        ul
+                                            li.ui-li-desc
+                                                if(event.attendees.length > 0)
+                                                    each attendee in event.attendees
+
+                                                        li.ui-li-desc #{attendee.fname} #{attendee.lname}
+                                                else
+                                                    li.ui-li-desc None
+                                    br
+
+                                    h5 Organiser Details
+                                        ul
+                                          li.ui-li-desc.
+                                          li.orgName.ui-li-desc.strong='Name: ' + event.organiser.fname + ' ' + event.organiser.lname
+                                          li.orgPhone.ui-li-desc.strong='Tel: ' + event.organiser.phone
+                                          li.orgEmail.ui-li-desc.strong='Email: ' + event.organiser.email
+
+
+                                    p(style='font-size: .85em;')
+
+                                        div(data-role='controlgroup', data-type='horizontal', id='#{event._id}')
+                                            a.evtSubscribe(data-role='button', data-mini='true', data-theme='a', data-icon='check', data-shadow='false', data-iconpos='right') Attend
+                                            a.evtUnsubscribe(data-role='button', data-mini='true', data-theme='a', data-icon='delete', data-shadow='false', data-iconpos='right') Cancel
+
+                        #deletePopup.ui-content(data-role='popup', data-overlay-theme='a', style="margin:0;padding:0;")
+                            ul(data-role='listview', data-inset="true", style="margin:0;padding:0;")
+                                li(data-role='list-divider', data-theme='a')
+                                    strong Are you sure you want to delete this event?
+                                li
+                                    p
+                                        This Action cannot be undone.
+                                    p
+                                        div(data-role='controlgroup', data-type='horizontal')
+                                            a(data-role='button', data-mini='true', data-theme='b', data-shadow='false', href="/deleteevent/" + event._id) Delete
+                                            a(data-role='button', data-mini='true', data-theme='a', data-shadow='false', data-rel="back") Cancel
+
+                        #invitePopup.ui-content(data-role='popup', data-overlay-theme='a', style="margin:0;padding:0;")
+                            ul.inviteeList(data-role='listview', data-inset="true", style="margin:0;padding:0;")
+                                li(data-role='list-divider', data-theme='a') Invitees
+
+                                li.inviteeField
+                                    fieldset.ui-grid-a
+
+                                        div.ui-block-a(data-theme='a' style='width:25%;')
+                                            label(for='inviteeName0') Name
+                                        div.ui-block-b(data-theme='a' style='width:75%;')
+                                            input.inviteeName0(type='text', placeholder='Invitee Name', name='inviteeName0')
+                                        div.ui-block-a(data-theme='a' style='width:25%;')
+                                            label(for='inviteeEmail0') Email
+                                        div.ui-block-b(data-theme='a' style='width:75%;')
+                                            input.inviteeEmail0(type='text', placeholder='Invitee Email', name='inviteeEmail0')
+
+                            a.addInviteeButton(href='#', data-role='button', data-icon='plus', data-mini='true', data-theme='a', data-shadow='false', data-iconpos='right') Add
+
+                            div.ui-grid-a
+                                div.ui-block-a(id='#{event._id}')
+                                    a.sendInviteButton(data-role='button', data-mini='true', data-theme='b', data-shadow='false') Send
+                                div.ui-block-b
+                                    a(data-role='button', data-mini='true', data-theme='a', data-shadow='false', data-rel="back") Cancel
+
+        div(data-role='controlgroup', data-type='horizontal')
+            a(data-role='button', data-mini='true', data-rel='back', data-theme='a', data-icon='back', data-shadow='false', data-iconpos='right') Back
+            a(data-role='button', data-mini='true', href='/myevents', data-theme='a', data-icon='arrow-r', data-shadow='false', data-iconpos='right') My Events

@@ -1,0 +1,40 @@
+extends layout
+
+block content
+
+    div(data-role='content', style='background: #000000 url(\'images/img-bg3.jpg\'); -webkit-background-size: 100% auto;')
+        a.logoutLink(href='/logout') Logout
+
+        .bg-box-white.alpha9(data-inset='true')
+
+            div(data-role='listview', data-theme='a')
+                h5 Main Details
+                .norm
+                    ul(style="text-align:left;")
+                        li.user-fname.ui-li-desc= user.fname
+                        li.user-lname.ui-li-desc= user.lname
+                        li.user-phone.ui-li-desc= user.phone
+                        li.user-email.ui-li-desc= user.email
+            br
+            p(style='font-size: .85em;')
+
+                div.optionButtons(data-role='controlgroup', data-type='horizontal', id='#{user._id}')
+                    a.myDetailsEditButton(data-role='button', data-mini='true', data-theme='a', data-icon='check', data-shadow='false', data-iconpos='right') Edit
+                    a(data-role='button', data-mini='true', data-theme='a', data-icon='delete', data-rel="popup", href="#deletePopupMyDetails", data-shadow='false', data-iconpos='right') delete
+
+        a(data-role='button', data-mini='true', data-rel='back', data-theme='a', data-icon='back', data-shadow='false', data-iconpos='right') Back
+
+    #deletePopupMyDetails.ui-content(data-role='popup', data-overlay-theme='a', style="margin:0;padding:0;")
+        ul(data-role='listview', data-inset="true", style="margin:0;padding:0;")
+            li(data-role='list-divider', data-theme='a')
+                strong Are you sure you want to delete your profile?
+            li
+                p
+                    This Action cannot be undone.
+                p
+                    div(data-role='controlgroup', data-type='horizontal')
+                        a(data-role='button', data-mini='true', data-theme='b', data-shadow='false', href="/deletemydetails/" + user._id) Delete
+                        a(data-role='button', data-mini='true', data-theme='a', data-shadow='false', data-rel="back") Cancel
+
+
+
